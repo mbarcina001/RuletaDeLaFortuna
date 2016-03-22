@@ -19,28 +19,33 @@ public class Panel {
 	public String verPista(){
 		return this.pista;
 	}
-	public void comprobarLetra(Character pLetra){
+	private int comprobarLetra(Character pLetra){
 		Iterator<Character> it=pregunta.iterator();
 		Character letra;
-		boolean haAcertado=false;
+		
 		int contador=0;
+		int aciertos=0;
 		while(it.hasNext()){
 			letra=it.next();
 			if(letra==pLetra){
 				acertadas.add(contador,letra);
-				haAcertado=true;
+				aciertos++;
 			}
 			contador++;
 		}
-		if(!haAcertado){
+		if(aciertos==0){
 			//////////////////////////////////////////////
 			//////////////////////////////////////////////
 			//////////GENERAR SI NO ACIERTA///////////////
 			//////////////////////////////////////////////
 			//////////////////////////////////////////////
 		}
+		return aciertos;
 	}
 	public boolean tieneDemasiadosCaracteres(){
 		return this.pregunta.size()>60;
+	}
+	public int calcularPuntuacion(int pDinero, Character pLetra){
+		return comprobarLetra(pLetra)*pDinero;
 	}
 }
