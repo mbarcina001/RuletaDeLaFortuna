@@ -1,5 +1,8 @@
 package ruleta;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class Juego {
 
 	public Juego() {
@@ -7,7 +10,9 @@ public class Juego {
 	}
 	public  void jugar() {
 		Ruleta r = Ruleta.getRuleta();
-		Jugador jugActual = null;
+		Random jAleatorio=new Random();
+		Jugador jugActual = ListaJugadores.getListaJugadores().obtenerJugador(jAleatorio.nextInt(ListaJugadores.getListaJugadores().obtenerNumJugadores()-1));
+		Panel panel=ListaPaneles.getListaPaneles().elegirPanelAleatorio();
 		boolean seguir = false;
 		int dinero = 0;
 		while(!seguir){
@@ -21,10 +26,17 @@ public class Juego {
 				jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador(); 
 			}else{
 				dinero = Integer.valueOf(rdo);
-				//SEGUIR
+				Character letra=this.pedirLetra();
+				panel.calcularPuntuacion(dinero, letra);
+				
 				
 			}
 		}
+	}
+	private Character pedirLetra(){
+		Scanner sc=new Scanner();
+		Character letra=sc.next();
+		return letra;
 	}
 
 }

@@ -26,5 +26,11 @@ public class ListaJugadores {
 		}
 		return this.listajugadores.get(jugActual);
 	}
+	public int obtenerNumJugadores(){
+		return this.listajugadores.size();
+	}
+	public Jugador obtenerJugador(int pPos){
+		return this.listajugadores.get(pPos);
+	}
 
 }
