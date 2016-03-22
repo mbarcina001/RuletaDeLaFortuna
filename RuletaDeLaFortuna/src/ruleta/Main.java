@@ -1,10 +1,15 @@
 package ruleta;
 
+import interfaz.Principal;
+
 public class Main {
 	
 	public static void main(String[] args) {
-		Juego juego=new Juego();
-		juego.jugar();
+		//TODO CARGAR PANELES Y ESAS COSAS.
+		ListaPuntuaciones.getListaPuntuaciones().cargarPuntuaciones();
+		ListaPuntuaciones.getListaPuntuaciones().imprimir();
+		
+		Principal.main(null);
 	}
 
 }
