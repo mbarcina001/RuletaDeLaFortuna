@@ -1,6 +1,7 @@
 package ruleta;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class ListaJugadores {
@@ -31,6 +32,19 @@ public class ListaJugadores {
 	}
 	public Jugador obtenerJugador(int pPos){
 		return this.listajugadores.get(pPos);
+	}
+	public void actualizarPuntuaciones(Jugador pJugador){
+		Iterator<Jugador> it=this.listajugadores.iterator();
+		Jugador jugador;
+		while(it.hasNext()){
+			jugador=it.next();
+			if(!jugador.equals(pJugador)){
+				jugador.setPuntuacion(0);
+				
+			}
+			jugador.setPuntuacionTotal(jugador.getPuntuacionTotal()+jugador.getPuntuacion());
+		}
+		
 	}
 
 }

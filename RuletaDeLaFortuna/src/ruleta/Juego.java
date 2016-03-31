@@ -39,6 +39,7 @@ public class Juego {
 				else{
 					if(panel.comprobarSolucion(this.pedirSolucion())){
 						siguientePanel=true;
+						ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);						
 					}
 					else{
 						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
