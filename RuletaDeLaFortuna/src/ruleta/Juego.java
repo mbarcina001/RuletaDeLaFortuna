@@ -13,7 +13,7 @@ public class Juego {
 		Ruleta r = Ruleta.getRuleta();
 		Random jAleatorio=new Random();
 		int contadorPaneles=0;
-		boolean seguir = false;
+		
 		int dinero = 0;
 		while(contadorPaneles<=5){
 			Jugador jugActual = ListaJugadores.getListaJugadores().obtenerJugador(jAleatorio.nextInt(ListaJugadores.getListaJugadores().obtenerNumJugadores()-1));
