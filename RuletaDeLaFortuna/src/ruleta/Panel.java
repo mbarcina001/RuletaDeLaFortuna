@@ -48,4 +48,23 @@ public class Panel {
 	public int calcularPuntuacion(int pDinero, Character pLetra){
 		return comprobarLetra(pLetra)*pDinero;
 	}
+	public boolean comprobarSolucion(ArrayList<Character> pSolucion){
+		Iterator<Character> it=pSolucion.iterator();
+		Iterator<Character> it2=this.pregunta.iterator();
+		Character letraS;
+		Character letraP;
+		boolean acierto=false;
+		
+		if(pSolucion.size()==this.pregunta.size()){
+		acierto=true;
+			while(acierto&&it.hasNext()){
+				letraS=it.next();
+				letraP=it2.next();
+				if(!letraS.equals(letraP)){
+					acierto=false;
+				}
+			}
+		}
+		return acierto;
+	}
 }
