@@ -11,6 +11,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 
 import ruleta.Juego;
+import ruleta.ListaPuntuaciones;
 
 public class Principal extends JFrame {
 	
@@ -19,12 +20,18 @@ public class Principal extends JFrame {
 	GroupLayout layout; 
 	int xSize;
 	int ySize;
+	static boolean cargadosPuntuacionesYPaneles = false;
 	
 	public static void main(String[] args) { 
 		Principal dialog = new Principal(); 
 		dialog.alinearComoColumna(); 
 		dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); /* este metodo indica que la aplicacion termina al cerrarse la ventana */ 
 		dialog.setVisible(true);
+		if(!cargadosPuntuacionesYPaneles){
+			ListaPuntuaciones.getListaPuntuaciones().cargarPuntuaciones();
+			//CargarPaneles
+			cargadosPuntuacionesYPaneles = true;
+		}
 	}
 	
 	public Principal(){ 
@@ -51,7 +58,7 @@ public class Principal extends JFrame {
 		btnPuntuaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				//TODO
+				InterfazPuntuaciones.main(null);
 			}
 		});
 		

@@ -25,6 +25,14 @@ public class ListaPuntuaciones {
 		this.listaPuntuaciones.add(p);
 	}	
 	
+	public Puntuacion getPuntuacion(int pIndice){
+		if(pIndice<this.listaPuntuaciones.size()){
+			return this.listaPuntuaciones.get(pIndice);
+		}else{
+			return null;
+		}
+	}
+	
 	public void imprimir(){
 		Iterator<Puntuacion> it = this.listaPuntuaciones.iterator();
 		while(it.hasNext()){

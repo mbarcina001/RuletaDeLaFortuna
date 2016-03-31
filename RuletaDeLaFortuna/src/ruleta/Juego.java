@@ -10,6 +10,7 @@ public class Juego {
 		// TODO Auto-generated constructor stub
 	}
 	public  void jugar() {
+		ListaJugadores.getListaJugadores().inicializarJugadores();
 		Ruleta r = Ruleta.getRuleta();
 		Random jAleatorio=new Random();
 		int contadorPaneles=0;
