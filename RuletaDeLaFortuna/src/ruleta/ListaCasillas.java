@@ -1,6 +1,7 @@
 package ruleta;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class ListaCasillas {
@@ -23,26 +24,28 @@ public class ListaCasillas {
 	
 	public void iniciarLista(String letras){
 		char[] arrayLetras = letras.toCharArray();
-		ArrayList<Casilla> todascasillas = new ArrayList<Casilla>();
-		Casilla c;
-		for(int i=0;i<arrayLetras.length-1;i++){
-			c = new Casilla(arrayLetras[i]);
-			todascasillas.add(c);
-		}
-		
-		ArrayList<Integer> cuentas = new ArrayList<Integer>();
+
+		ArrayList<Integer> listaEmpiezaEnArray = new ArrayList<Integer>();
+		listaEmpiezaEnArray.add(0);
+		ArrayList<Integer> listaAcabaEnArray = new ArrayList<Integer>();
 		int cuenta = 0;
+		int fila = 0;
 		int max = 12;
-		int i = 0;
-		for(int j=0;j<todascasillas.size()-1;j++){
-			if(todascasillas.get(j+1).getLetra()==' '){
-				cuenta = j+1;
+		
+		for(int j=0;j<arrayLetras.length-1;j++){
+			if(arrayLetras[j+1]==' '){
+				cuenta = j;
 			}
+			
 			if(j+1>max){
 				j=cuenta+1;
-				cuentas.add(cuenta);
-				i++;
-				switch(i){
+				if(arrayLetras[j]==' '){
+					j=j+1;
+				}
+				listaAcabaEnArray.add(cuenta+1);
+				listaEmpiezaEnArray.add(j);
+				fila++;
+				switch(fila){
 				case 1: max+=14;
 						break;
 				case 2: max+=14;
@@ -50,43 +53,56 @@ public class ListaCasillas {
 				case 3: max+=12;
 				}
 			}
-			if(j+1>=todascasillas.size()-1 && j+1<=max){
-				cuenta=j+2;
-				cuentas.add(cuenta);
+			
+			if(j+1>=arrayLetras.length-1 && j+1<=max){
+				cuenta = arrayLetras.length-1;
+				listaAcabaEnArray.add(cuenta);
 			}
 		}
 		
-		System.out.println(cuentas);
+		Iterator<Integer> iterador = listaEmpiezaEnArray.iterator();
+		System.out.println("EMPIEZA EN ARRAY");
+		while(iterador.hasNext()){
+			System.out.println(iterador.next());
+		}		
+		iterador = listaAcabaEnArray.iterator();
+		System.out.println("ACABA EN ARRAY");
+		while(iterador.hasNext()){
+			System.out.println(iterador.next());
+		}
 		
 		int empieza=0;
-		for(int j=0;j<cuentas.size();j++){
+		for(int j=0;j<listaEmpiezaEnArray.size();j++){
 			switch(j){
 			case 0:
-				empieza = obtenerPosEmpieza12(cuentas.get(j));
+				empieza = obtenerPosEmpieza12(listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j));
 				max=12;
 				break;
 			case 1:
-				empieza = obtenerPosEmpieza14(cuentas.get(j));
+				empieza = obtenerPosEmpieza14(listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j));
 				max=14;
 				break;
 			case 2:
-				empieza = obtenerPosEmpieza14(cuentas.get(j));
+				empieza = obtenerPosEmpieza14(listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j));
 				max=14;
 				break;
 			case 3:
-				empieza = obtenerPosEmpieza12(cuentas.get(j));
+				empieza = obtenerPosEmpieza12(listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j));
 				max=12;
 				break;
 			}
-			int acaba = empieza+cuentas.get(j);
+			int acaba = empieza+listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j);
 			
 			System.out.println("Empieza: "+empieza);
 			System.out.println("Acaba: "+acaba);
 
 			ArrayList<Casilla> lista = listacasillas.get(j);
-			int pos = 0;
+			int pos = listaEmpiezaEnArray.get(j);
 			Casilla cas;
 			for(int k=0; k<max; k++){
+				if(pos>arrayLetras.length-1){
+					break;
+				}
 				if(k>=empieza && k<=acaba){
 					cas = new Casilla(arrayLetras[pos]);
 					System.out.println(arrayLetras[pos]);
