@@ -30,7 +30,7 @@ public class ListaCasillas {
 			todascasillas.add(c);
 		}
 		
-		/*ArrayList<Integer> cuentas = new ArrayList<Integer>();
+		ArrayList<Integer> cuentas = new ArrayList<Integer>();
 		int cuenta = 0;
 		int max = 12;
 		int i = 0;
@@ -96,7 +96,7 @@ public class ListaCasillas {
 				}
 				lista.add(cas);
 			}
-		}*/
+		}
 	}
 	
 	private int obtenerPosEmpieza12(int tamano){
