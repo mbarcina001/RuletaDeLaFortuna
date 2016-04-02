@@ -1,6 +1,8 @@
 package ruleta;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 public class ListaPaneles {
@@ -21,5 +23,19 @@ public class ListaPaneles {
 	}
 	public void eliminarPanel(int pPosicion){
 		lista.remove(pPosicion);
+	}
+	
+	public void cargarPaneles(){
+		LectorPaneles.main(null);
+	}
+	
+	public void imprimir(){
+		Iterator it = this.lista.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        Panel p = (Panel) pair.getValue();
+	        System.out.println("Panel "+pair.getKey() + "\n\tPista: "+p.getPista()+"\n\tLetras: "+p.getLetras());
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
 	}
 }

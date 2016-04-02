@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listapaneles>
+	<panel>
+		<pregunta>INSEPARABLES</pregunta>
+		<respuesta>INDIOS, VAQUEROS Y LAS PELICULAS DEL OESTE</respuesta>
+	</panel>
+	<panel>
+		<pregunta>TRES DINOSAURIOS</pregunta>
+		<respuesta>VELOCIRAPTOR TYRANNOSAURUS REX Y TRICERATOPS</respuesta>
+	</panel>
+	<panel>
+		<pregunta>DULCES Y LOCALIDAD</pregunta>
+		<respuesta>CARAJITOS DEL PROFESOR Y SALAS</respuesta>
+	</panel>
+	<panel>
+		<pregunta>LO HACEN LAS SEÑORAS</pregunta>
+		<respuesta>DISCUTIR CON LOS CONTESTADORES AUTOMATICOS</respuesta>
+	</panel>
+	<panel>
+		<pregunta>PELICULA Y DIRECTOR</pregunta>
+		<respuesta>AMANECE, QUE NO ES POCO Y JOSE LUIS CUERDA</respuesta>
+	</panel>
+	<panel>
+		<pregunta>TRES CÓMICOS</pregunta>
+		<respuesta>BERTO ROMERO DAVID BRONCANO Y JJ VAQUERO</respuesta>
+	</panel>
+	<panel>
+		<pregunta>PROGRAMA DE TV Y PRESENTADOR</pregunta>
+		<respuesta>ILUSTRES IGNORANTES Y JAVIER CORONAS</respuesta>
+	</panel>
+	<panel>
+		<pregunta>TRES SUPERHÉROES</pregunta>
+		<respuesta>IRON MAN, SPIDERMAN Y DEADPOOL</respuesta>
+	</panel>
+</listapaneles>

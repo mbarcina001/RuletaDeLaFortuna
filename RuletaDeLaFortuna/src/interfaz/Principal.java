@@ -11,6 +11,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 
 import ruleta.Juego;
+import ruleta.ListaPaneles;
 import ruleta.ListaPuntuaciones;
 
 public class Principal extends JFrame {
@@ -29,7 +30,8 @@ public class Principal extends JFrame {
 		dialog.setVisible(true);
 		if(!cargadosPuntuacionesYPaneles){
 			ListaPuntuaciones.getListaPuntuaciones().cargarPuntuaciones();
-			//CargarPaneles
+			ListaPaneles.getListaPaneles().cargarPaneles();
+			ListaPaneles.getListaPaneles().imprimir();
 			cargadosPuntuacionesYPaneles = true;
 		}
 	}

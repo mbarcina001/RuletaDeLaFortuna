@@ -7,6 +7,7 @@ public class Panel {
 	private ArrayList<Character> pregunta;
 	private ArrayList<Character> acertadas;
 	private String pista;
+	private String letras;
 	public Panel(String pLetras, String pPista) {
 			acertadas=new ArrayList<Character>();
 			pregunta= new ArrayList<Character>();
@@ -15,9 +16,16 @@ public class Panel {
 				acertadas.add(' ');
 			}
 			pista=pPista;
+			letras=pLetras;
 	}
-	public String verPista(){
-		return this.pista;
+	public ArrayList<Character> getPregunta() {
+		return pregunta;
+	}
+	public String getPista() {
+		return pista;
+	}
+	public String getLetras(){
+		return this.letras;
 	}
 	private int comprobarLetra(Character pLetra){
 		Iterator<Character> it=pregunta.iterator();
