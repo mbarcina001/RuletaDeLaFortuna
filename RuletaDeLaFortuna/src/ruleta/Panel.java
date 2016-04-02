@@ -27,7 +27,7 @@ public class Panel {
 	public String getLetras(){
 		return this.letras;
 	}
-	private int comprobarLetra(Character pLetra){
+	public int comprobarLetra(Character pLetra){
 		Iterator<Character> it=pregunta.iterator();
 		Character letra;
 		

@@ -24,17 +24,56 @@ public class Juego {
 				if(this.pedirRespuesta().equalsIgnoreCase("n")){
 					String rdo = r.girarRuleta();
 					if(rdo.equalsIgnoreCase("Pierde Turno")){
-						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+						if(jugActual.getComodines()>0){
+							if(this.pedirComodin().equalsIgnoreCase("Y")){
+								jugActual.setComodines(jugActual.getComodines()-1);
+							}
+							else{
+								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+								
+							}
+						}
+						else{
+							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+						}
+						
 					}else if(rdo.equalsIgnoreCase("Comodin")){
 						jugActual.setComodines(jugActual.getComodines()+1);
 					}else if(rdo.equalsIgnoreCase("Quiebra")){
 						jugActual.setPuntuacion(0);
-						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador(); 
+						if(jugActual.getComodines()>0){
+							if(this.pedirComodin().equalsIgnoreCase("Y")){
+								jugActual.setComodines(jugActual.getComodines()-1);
+							}
+							else{
+								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+								
+							}
+						}
+						else{
+							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+						}
 					}else{
 						dinero = Integer.valueOf(rdo);
 						Character letra=this.pedirLetra();
-						int puntos=panel.calcularPuntuacion(dinero, letra);
+						if(panel.comprobarLetra(letra)==0){						
+							if(jugActual.getComodines()>0){
+								if(this.pedirComodin().equalsIgnoreCase("Y")){
+									jugActual.setComodines(jugActual.getComodines()-1);
+								}
+								else{
+									jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+									
+								}
+							}
+							else{
+								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+							}
+						}
+						else{
+						int	puntos=panel.calcularPuntuacion(dinero, letra);
 						jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
+						}
 					}
 				}
 				else{
@@ -43,7 +82,18 @@ public class Juego {
 						ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);						
 					}
 					else{
-						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+						if(jugActual.getComodines()>0){
+							if(this.pedirComodin().equalsIgnoreCase("Y")){
+								jugActual.setComodines(jugActual.getComodines()-1);
+							}
+							else{
+								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+								
+							}
+						}
+						else{
+							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+						}
 					}
 				}
 			}
@@ -76,6 +126,13 @@ public class Juego {
 			contador++;
 		}		
 		return solucion;
+	}
+	private String pedirComodin(){
+		//este metodo devuelve la respuesta a si quiere resolver el panel o seguir jugando
+		System.out.println("¿QUIERES USAR UN COMODIN?(Y/N)");
+		Scanner sc=new Scanner(System.in);
+		String respuesta=sc.next();
+		return respuesta;
 	}
 
 }
