@@ -75,6 +75,9 @@ public class Juego extends Observable{
 					}else{
 						dinero = Integer.valueOf(rdo);
 						Character letra=this.pedirLetra();
+						while(letra.equals('A')||letra.equals('E')||letra.equals('I')||letra.equals('O')||letra.equals('U')){
+							letra=this.pedirLetra();
+						}
 						if(panelactual.comprobarLetra(letra)==0){						
 							if(jugActual.getComodines()>0){
 								if(this.pedirComodin().equalsIgnoreCase("Y")){
