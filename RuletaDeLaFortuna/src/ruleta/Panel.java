@@ -48,6 +48,7 @@ public class Panel {
 			//////////////////////////////////////////////
 			//////////////////////////////////////////////
 		}
+		System.out.println(aciertos);
 		return aciertos;
 	}
 	public boolean tieneDemasiadosCaracteres(){

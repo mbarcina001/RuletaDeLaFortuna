@@ -73,6 +73,7 @@ public class ListaCasillas {
 		
 		int empieza=0;
 		for(int j=0;j<listaEmpiezaEnArray.size();j++){
+			System.out.println(j);
 			switch(j){
 			case 0:
 				empieza = obtenerPosEmpieza12(listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j));
@@ -93,8 +94,8 @@ public class ListaCasillas {
 			}
 			int acaba = empieza+listaAcabaEnArray.get(j)-listaEmpiezaEnArray.get(j);
 			
-			System.out.println("Empieza: "+empieza);
-			System.out.println("Acaba: "+acaba);
+			//System.out.println("Empieza: "+empieza);
+			//System.out.println("Acaba: "+acaba);
 
 			ArrayList<Casilla> lista = listacasillas.get(j);
 			int pos = listaEmpiezaEnArray.get(j);
@@ -105,7 +106,7 @@ public class ListaCasillas {
 				}
 				if(k>=empieza && k<=acaba){
 					cas = new Casilla(arrayLetras[pos]);
-					System.out.println(arrayLetras[pos]);
+					//System.out.println(arrayLetras[pos]);
 					pos++;
 				}else{
 					cas = new Casilla(true);
@@ -113,6 +114,27 @@ public class ListaCasillas {
 				lista.add(cas);
 			}
 		}
+		for(int p=listaEmpiezaEnArray.size();p<4; p++){
+			switch(p){
+			case 0:
+				max=12;
+				break;
+			case 1:
+				max=14;
+				break;
+			case 2:
+				max=14;
+				break;
+			case 3:
+				max=12;
+				break;
+			}
+			for(int p2 = 0; p2<max; p2++){
+				Casilla cas = new Casilla(true);
+				this.listacasillas.get(p).add(cas);
+			}
+		}
+		
 	}
 	
 	private int obtenerPosEmpieza12(int tamano){

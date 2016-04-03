@@ -53,6 +53,7 @@ public class InterfazRuleta extends JFrame{
 		Casilla casillaaux;
 		
 		for(int i=0;i<4;i++){
+			System.out.println("FILA");
 			int cont=0;
 			ArrayList<Casilla> listalabels = ListaCasillas.getListaCasillas().getListaFila(i);
 			Iterator<Casilla> iterador = listalabels.iterator();
@@ -67,9 +68,10 @@ public class InterfazRuleta extends JFrame{
 				casillaaux = iterador.next();
 				labelaux = new JLabel();
 				if(casillaaux.isVacia()){
+					System.out.print("_");
 					labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png"))); 
 				}else{
-					//System.out.println(casillaaux.getLetra());
+					System.out.print(casillaaux.getLetra());
 					if(casillaaux.getLetra()==' '){
 						labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png")));
 					}else{
