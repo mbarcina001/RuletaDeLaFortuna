@@ -101,7 +101,7 @@ public class ListaCasillas {
 			Casilla cas;
 			for(int k=0; k<max; k++){
 				if(pos>arrayLetras.length-1){
-					break;
+					cas = new Casilla(true);
 				}
 				if(k>=empieza && k<=acaba){
 					cas = new Casilla(arrayLetras[pos]);

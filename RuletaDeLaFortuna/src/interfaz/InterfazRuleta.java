@@ -1,20 +1,22 @@
 package interfaz;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import ruleta.Casilla;
 import ruleta.ListaCasillas;
+import ruleta.Panel;
 
 public class InterfazRuleta extends JFrame{
 
@@ -26,7 +28,7 @@ public class InterfazRuleta extends JFrame{
 	}
 	
 	public InterfazRuleta(){
-		inicializarComponentes();
+		ponerComponentes(null);
 		//Toolkit tk = Toolkit.getDefaultToolkit();   
 		//setSize(840,320);
 
@@ -35,15 +37,18 @@ public class InterfazRuleta extends JFrame{
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 	
-	private void inicializarComponentes(){
+	private void ponerComponentes(Panel p){
 		BoxLayout layoutpadre = new BoxLayout(getContentPane(),BoxLayout.Y_AXIS); /* obtenemos el contenedor del JFrame con el metodo getContentPane() */ 
 		getContentPane().setLayout(layoutpadre);
 		
 		//Panel
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 14, 1, 1 ));
-
-		ListaCasillas.getListaCasillas().iniciarLista("AMANECE, QUE NO ES POCO Y JOSE LUIS CUERDA");
+		if(p==null){
+			ListaCasillas.getListaCasillas().iniciarLista("BERTO ROMERO DAVID BRONCANO Y JJ VAQUERO");
+		}else{
+			ListaCasillas.getListaCasillas().iniciarLista(p.getLetras());
+		}
 		JLabel labelaux;
 		Casilla casillaaux;
 		
@@ -68,7 +73,12 @@ public class InterfazRuleta extends JFrame{
 					if(casillaaux.getLetra()==' '){
 						labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png")));
 					}else{
-						labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel3.png")));
+						if(casillaaux.isOculta()){
+							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel3.png")));
+						}else{
+							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel"+casillaaux.getLetra()+".png")));
+						}
+						
 					}				 
 				}
 				labelaux.setVisible(true);
@@ -85,6 +95,17 @@ public class InterfazRuleta extends JFrame{
 		
 		this.add(panel);
 		
+		//PISTA
+		JLabel label = new JLabel("Test");
+		label.setForeground(Color.blue);
+		label.setBackground(Color.lightGray);
+		if(p!=null){
+			label.setText(p.getPista());
+		}else{
+			label.setText("");
+		}
+		this.add(label);
+		
 		//Opciones
 		JPanel opciones = new JPanel();
 		opciones.setLayout(new FlowLayout());
@@ -92,6 +113,9 @@ public class InterfazRuleta extends JFrame{
 		opciones.add(new JButton("Comprar Vocal"));
 		opciones.add(new JButton("Resolver"));		
 		this.add(opciones);
-		
+	}
+	
+	public void update(Observable arg0, Object arg1) {
+		ponerComponentes((Panel) arg1);
 	}
 }
