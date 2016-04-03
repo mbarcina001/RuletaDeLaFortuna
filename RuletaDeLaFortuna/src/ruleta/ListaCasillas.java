@@ -213,6 +213,20 @@ public class ListaCasillas {
 		return empieza;
 	}
 
+	public void destaparLetra(char pLetra){
+		Iterator<ArrayList<Casilla>> it = this.listacasillas.iterator();
+		while(it.hasNext()){
+			Iterator<Casilla> it2 = it.next().iterator();
+			while(it2.hasNext()){
+				Casilla c = it2.next();
+				if(c.getLetra()==pLetra){
+					c.setOculta(false);
+				}
+				System.out.print(c.getLetra());
+			}
+		}
+	}
+	
 	public static ListaCasillas getListaCasillas() {
 		return mListaCasillas;
 	}

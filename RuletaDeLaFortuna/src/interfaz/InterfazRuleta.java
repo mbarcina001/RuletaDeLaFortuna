@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -53,8 +55,6 @@ public class InterfazRuleta extends JFrame implements Observer{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 14, 1, 1 ));
 		
-		System.out.println("1");
-		
 		JLabel labelaux;
 		Casilla casillaaux;
 		
@@ -99,10 +99,6 @@ public class InterfazRuleta extends JFrame implements Observer{
 			}
 		}
 		
-
-		
-		System.out.println("2");
-		
 		this.add(panel);
 		
 		//PISTA
@@ -113,22 +109,41 @@ public class InterfazRuleta extends JFrame implements Observer{
 		
 		this.add(labelpista);
 		
-		System.out.println("3");
-		
 		//Opciones
 		JPanel opciones = new JPanel();
 		opciones.setLayout(new FlowLayout());
-		opciones.add(new JButton("Tirar Ruleta"));
-		opciones.add(new JButton("Comprar Vocal"));
-		opciones.add(new JButton("Resolver"));		
-		this.add(opciones);
 		
-		System.out.println("4");
+		JButton botontirar = new JButton("Tirar Ruleta");
+		botontirar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Juego.getJuego().tirarRuleta();
+				
+			}
+		});
+		opciones.add(botontirar);
+		
+		JButton botonvocal = new JButton("Comprar Vocal");
+		botonvocal.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Juego.getJuego().tirarRuleta();
+				
+			}
+		});
+		opciones.add(botonvocal);
+		
+		JButton botonresolver = new JButton("Comprar Vocal");
+		botonresolver.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Juego.getJuego().tirarRuleta();
+				
+			}
+		});
+		opciones.add(botonresolver);		
+		this.add(opciones);
 	}
 	
 	private void actualizarLabels(){
 		Panel p = Juego.getJuego().getPanelActual();
-		ListaCasillas.getListaCasillas().iniciarLista(p.getLetras());
 		Iterator<JLabel> iteradorlabels = labels.iterator();
 		
 		for(int i=0;i<4;i++){
@@ -138,6 +153,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 			while(iteradorcasillas.hasNext()){
 				JLabel labelaux = iteradorlabels.next();
 				Casilla casillaaux = iteradorcasillas.next();
+				System.out.println(casillaaux.getLetra());
 				if(casillaaux.isVacia()){
 					labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png"))); 
 				}else{
@@ -147,6 +163,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 						if(casillaaux.isOculta()){
 							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel3.png")));
 						}else{
+							System.out.println("HEY!");
 							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel"+casillaaux.getLetra()+".png")));
 						}
 						

@@ -6,7 +6,6 @@ import interfaz.Principal;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -14,10 +13,10 @@ public class Juego extends Observable{
 
 	private static Juego mJuego = new Juego();
 	private Panel panelactual;
+	private Ruleta r;
+	private Jugador jugActual;
 	
-	private Juego() {
-		// TODO Auto-generated constructor stub
-	}
+	private Juego() {  }
 	public static Juego getJuego(){
 		return mJuego;
 	}
@@ -26,105 +25,100 @@ public class Juego extends Observable{
 	}
 	public  void jugar() {
 		ListaJugadores.getListaJugadores().inicializarJugadores();
-		Ruleta r = Ruleta.getRuleta();
+		r = Ruleta.getRuleta();
 		Random jAleatorio=new Random();
 		int contadorPaneles=0;
 		InterfazRuleta.main(null);
 		
-		int dinero = 0;
-		while(contadorPaneles<=5){
-			Jugador jugActual = ListaJugadores.getListaJugadores().obtenerJugador(jAleatorio.nextInt(ListaJugadores.getListaJugadores().obtenerNumJugadores()-1));
-			panelactual=ListaPaneles.getListaPaneles().elegirPanelAleatorio();
-			System.out.println(panelactual.getLetras());
-			setChanged();
-			notifyObservers();
-			boolean siguientePanel=false;
-			while(!siguientePanel){
-				if(this.pedirRespuesta().equalsIgnoreCase("n")){
-					String rdo = r.girarRuleta();
-					if(rdo.equalsIgnoreCase("Pierde Turno")){
-						if(jugActual.getComodines()>0){
-							if(this.pedirComodin().equalsIgnoreCase("Y")){
-								jugActual.setComodines(jugActual.getComodines()-1);
-							}
-							else{
-								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-								
-							}
-						}
-						else{
-							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-						}
+		jugActual = ListaJugadores.getListaJugadores().obtenerJugador(jAleatorio.nextInt(ListaJugadores.getListaJugadores().obtenerNumJugadores()-1));
+		panelactual=ListaPaneles.getListaPaneles().elegirPanelAleatorio();
+		ListaCasillas.getListaCasillas().iniciarLista(panelactual.getLetras());
+		setChanged();
+		notifyObservers();
+	}
+	public void tirarRuleta(){
+		String rdo = r.girarRuleta();
+		if(rdo.equalsIgnoreCase("Pierde Turno")){
+			if(jugActual.getComodines()>0){
+				if(this.pedirComodin().equalsIgnoreCase("Y")){
+					jugActual.setComodines(jugActual.getComodines()-1);
+				}
+				else{
+					jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+					
+				}
+			}
+			else{
+				jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+			}
+			
+		}else if(rdo.equalsIgnoreCase("Comodin")){
+			jugActual.setComodines(jugActual.getComodines()+1);
+		}else if(rdo.equalsIgnoreCase("Quiebra")){
+			jugActual.setPuntuacion(0);
+			if(jugActual.getComodines()>0){
+				if(this.pedirComodin().equalsIgnoreCase("Y")){
+					jugActual.setComodines(jugActual.getComodines()-1);
+				}
+				else{
+					jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+					
+				}
+			}
+			else{
+				jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+			}
+		}else{
+			int dinero = Integer.valueOf(rdo);
+			Character letra=this.pedirLetra();
+			if(panelactual.comprobarLetra(letra)==0){						
+				if(jugActual.getComodines()>0){
+					if(this.pedirComodin().equalsIgnoreCase("Y")){
+						jugActual.setComodines(jugActual.getComodines()-1);
+					}
+					else{
+						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
 						
-					}else if(rdo.equalsIgnoreCase("Comodin")){
-						jugActual.setComodines(jugActual.getComodines()+1);
-					}else if(rdo.equalsIgnoreCase("Quiebra")){
-						jugActual.setPuntuacion(0);
-						if(jugActual.getComodines()>0){
-							if(this.pedirComodin().equalsIgnoreCase("Y")){
-								jugActual.setComodines(jugActual.getComodines()-1);
-							}
-							else{
-								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-								
-							}
-						}
-						else{
-							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-						}
-					}else{
-						dinero = Integer.valueOf(rdo);
-						Character letra=this.pedirLetra();
-						while(letra.equals('A')||letra.equals('E')||letra.equals('I')||letra.equals('O')||letra.equals('U')){
-							letra=this.pedirLetra();
-						}
-						if(panelactual.comprobarLetra(letra)==0){						
-							if(jugActual.getComodines()>0){
-								if(this.pedirComodin().equalsIgnoreCase("Y")){
-									jugActual.setComodines(jugActual.getComodines()-1);
-								}
-								else{
-									jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-									
-								}
-							}
-							else{
-								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-							}
-						}
-						else{
-						int	puntos=panelactual.calcularPuntuacion(dinero, letra);
-						jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
-						}
 					}
 				}
 				else{
-					if(panelactual.comprobarSolucion(this.pedirSolucion())){
-						siguientePanel=true;
-						ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);						
-					}
-					else{
-						if(jugActual.getComodines()>0){
-							if(this.pedirComodin().equalsIgnoreCase("Y")){
-								jugActual.setComodines(jugActual.getComodines()-1);
-							}
-							else{
-								jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-								
-							}
-						}
-						else{
-							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-						}
-					}
+					jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
 				}
 			}
-			contadorPaneles++;
+			else{
+			ListaCasillas.getListaCasillas().destaparLetra(letra);
+			int	puntos=panelactual.calcularPuntuacion(dinero, letra);
+			jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
+			}
+		}
+		setChanged();
+		notifyObservers();
+	}
+	public void comprarVocal(){
+		
+	}
+	public void resolverPanel(){
+		if(panelactual.comprobarSolucion(this.pedirSolucion())){
+			ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);						
+		}
+		else{
+			if(jugActual.getComodines()>0){
+				if(this.pedirComodin().equalsIgnoreCase("Y")){
+					jugActual.setComodines(jugActual.getComodines()-1);
+				}
+				else{
+					jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+					
+				}
+			}
+			else{
+				jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+			}
 		}
 	}
 	private Character pedirLetra(){
 		//este metodo devuelve la letra que elige el jugador  cuando se le pregunta por que elija una letra
-		Character letra=JOptionPane.showInputDialog(null, "Elije una letra", "Letra", JOptionPane.QUESTION_MESSAGE).toCharArray()[0];
+		Character letra=JOptionPane.showInputDialog(null, "Elije una letra", "Letra", JOptionPane.QUESTION_MESSAGE).toUpperCase().toCharArray()[0];
 		return letra;
 	}
 	private String pedirRespuesta(){
