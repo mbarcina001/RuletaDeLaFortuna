@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,7 +43,7 @@ public class InterfazRuleta extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 14, 1, 1 ));
 
-		ListaCasillas.getListaCasillas().iniciarLista("VELOCIRAPTOR TYRANNOSAURUS REX Y TRICERATOPS");
+		ListaCasillas.getListaCasillas().iniciarLista("AMANECE, QUE NO ES POCO Y JOSE LUIS CUERDA");
 		JLabel labelaux;
 		Casilla casillaaux;
 		
