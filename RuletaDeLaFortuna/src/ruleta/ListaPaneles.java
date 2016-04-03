@@ -15,8 +15,9 @@ public class ListaPaneles {
 		return mListaPaneles;
 	}
 	public Panel elegirPanelAleatorio(){
-		
-		return lista.get(0+Math.random()*lista.size()-1);
+		Random rg = new Random();
+		int r = rg.nextInt(lista.size());
+		return lista.get(r);
 	}
 	public void aniadirPanel(int pPosicion, ruleta.Panel pPanel){
 		lista.put(pPosicion,pPanel);

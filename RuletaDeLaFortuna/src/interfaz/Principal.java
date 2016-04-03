@@ -31,7 +31,6 @@ public class Principal extends JFrame {
 		if(!cargadosPuntuacionesYPaneles){
 			ListaPuntuaciones.getListaPuntuaciones().cargarPuntuaciones();
 			ListaPaneles.getListaPaneles().cargarPaneles();
-			ListaPaneles.getListaPaneles().imprimir();
 			cargadosPuntuacionesYPaneles = true;
 		}
 	}
@@ -51,8 +50,7 @@ public class Principal extends JFrame {
 		btnJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				Juego juego=new Juego();
-				juego.jugar();
+				Juego.getJuego().jugar();
 			}
 		});
 		
