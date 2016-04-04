@@ -231,7 +231,6 @@ public class ListaCasillas {
 				if(c.getLetra()==pLetra){
 					c.setOculta(false);
 				}
-				System.out.print(c.getLetra());
 			}
 		}
 	}
@@ -243,7 +242,6 @@ public class ListaCasillas {
 			while(it2.hasNext()){
 				Casilla c = it2.next();
 				c.setOculta(false);
-				System.out.print(c.getLetra());
 			}
 		}
 	}

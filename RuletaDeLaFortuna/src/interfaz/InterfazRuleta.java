@@ -34,6 +34,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 	private JLabel labelpista;
 	private JLabel labeljugador;
 	private JLabel labelruleta;
+	private JButton btnSiguiente, botonvocal, botonresolver, botontirar;
 
 	public static void main(String[] args) { 
 		InterfazRuleta dialog = new InterfazRuleta(); 
@@ -140,7 +141,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 		JPanel opciones = new JPanel();
 		opciones.setLayout(new FlowLayout());
 		
-		JButton botontirar = new JButton("Tirar Ruleta");
+		botontirar = new JButton("Tirar Ruleta");
 		botontirar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				Juego.getJuego().tirarRuleta();
@@ -149,7 +150,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 		});
 		opciones.add(botontirar);
 		
-		JButton botonvocal = new JButton("Comprar Vocal");
+		botonvocal = new JButton("Comprar Vocal");
 		botonvocal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				Juego.getJuego().comprarVocal();
@@ -158,7 +159,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 		});
 		opciones.add(botonvocal);
 		
-		JButton botonresolver = new JButton("Resolver Panel");
+		botonresolver = new JButton("Resolver Panel");
 		botonresolver.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				Juego.getJuego().resolverPanel();
@@ -168,6 +169,18 @@ public class InterfazRuleta extends JFrame implements Observer{
 		opciones.add(botonresolver);		
 		this.add(opciones);
 		
+		JPanel panelSiguiente = new JPanel();
+		panelSiguiente.setLayout(new FlowLayout());
+		btnSiguiente = new JButton("Cargar siguiente panel");
+		panelSiguiente.add(btnSiguiente);
+		btnSiguiente.setEnabled(false);
+		
+		btnSiguiente.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Juego.getJuego().cargarSiguientePanel();
+			}
+		});
+		this.add(panelSiguiente);
 
 		JPanel panelpuntuaciones = new JPanel();
 		panelpuntuaciones.setLayout(new FlowLayout());
@@ -192,7 +205,6 @@ public class InterfazRuleta extends JFrame implements Observer{
 			while(iteradorcasillas.hasNext()){
 				JLabel labelaux = iteradorlabels.next();
 				Casilla casillaaux = iteradorcasillas.next();
-				System.out.println(casillaaux.getLetra());
 				if(casillaaux.isVacia()){
 					labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png"))); 
 				}else{
@@ -219,6 +231,18 @@ public class InterfazRuleta extends JFrame implements Observer{
 			labelruleta.setText("Ruleta: "+Juego.getJuego().getRdo());
 		}
 		
+		if(Juego.getJuego().getPanelResuelto()){
+			btnSiguiente.setEnabled(true);
+			botonresolver.setEnabled(false);;
+			botontirar.setEnabled(false);
+			botonvocal.setEnabled(false);
+		}else{
+			btnSiguiente.setEnabled(false);
+			botonresolver.setEnabled(true);;
+			botontirar.setEnabled(true);
+			botonvocal.setEnabled(true);
+		}
+		
 		Iterator<Jugador> iterador1 = ListaJugadores.getListaJugadores().getIterador();
 		Iterator<JLabel> iterador2 = labelsjugadores.iterator();
 		while(iterador1.hasNext()){
@@ -229,7 +253,6 @@ public class InterfazRuleta extends JFrame implements Observer{
 	}
 	
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("UPDATE");
 		actualizarLabels();
 	}
 }
