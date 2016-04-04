@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class ListaPaneles {
 	private HashMap<Integer,Panel> lista=new HashMap<Integer,Panel>();
+	private HashMap<Integer,Panel> Aparecidos=new HashMap<Integer,Panel>();
 	private static ListaPaneles mListaPaneles=new ListaPaneles();
 	private ListaPaneles() {
 		
@@ -17,7 +18,13 @@ public class ListaPaneles {
 	public Panel elegirPanelAleatorio(){
 		Random rg = new Random();
 		int r = rg.nextInt(lista.size());
-		return lista.get(r);
+		Panel panel=lista.get(r);
+		while(Aparecidos.containsKey(r)){
+			r=rg.nextInt(lista.size());
+			panel=lista.get(r);
+		}
+		Aparecidos.put(r,panel);
+		return panel;
 	}
 	public void aniadirPanel(int pPosicion, ruleta.Panel pPanel){
 		lista.put(pPosicion,pPanel);
