@@ -236,6 +236,18 @@ public class ListaCasillas {
 		}
 	}
 	
+	public void destaparTodo(){
+		Iterator<ArrayList<Casilla>> it = this.listacasillas.iterator();
+		while(it.hasNext()){
+			Iterator<Casilla> it2 = it.next().iterator();
+			while(it2.hasNext()){
+				Casilla c = it2.next();
+				c.setOculta(false);
+				System.out.print(c.getLetra());
+			}
+		}
+	}
+	
 	public static ListaCasillas getListaCasillas() {
 		return mListaCasillas;
 	}

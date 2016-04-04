@@ -1,6 +1,7 @@
 package interfaz;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -21,14 +22,18 @@ import javax.swing.JPanel;
 
 import ruleta.Casilla;
 import ruleta.Juego;
+import ruleta.Jugador;
 import ruleta.ListaCasillas;
+import ruleta.ListaJugadores;
 import ruleta.Panel;
 
 public class InterfazRuleta extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private ArrayList<JLabel> labels;
+	private ArrayList<JLabel> labelsjugadores;
 	private JLabel labelpista;
 	private JLabel labeljugador;
+	private JLabel labelruleta;
 
 	public static void main(String[] args) { 
 		InterfazRuleta dialog = new InterfazRuleta(); 
@@ -58,8 +63,18 @@ public class InterfazRuleta extends JFrame implements Observer{
 		labeljugador.setBackground(Color.lightGray);
 		labeljugador.setFont(new Font("Serif", Font.PLAIN, 20));
 		labeljugador.setText("Turno de: ");
+		labeljugador.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		this.add(labeljugador);
 		
-		this.add(labelpista);
+		labelruleta = new JLabel("");
+		labelruleta.setForeground(Color.blue);
+		labelruleta.setBackground(Color.lightGray);
+		labelruleta.setFont(new Font("Serif", Font.PLAIN, 20));
+		labelruleta.setText("Ruleta: -----");
+		labelruleta.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		this.add(labelruleta);
 		
 		//Panel
 		JPanel panel = new JPanel();
@@ -117,6 +132,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 		labelpista.setBackground(Color.lightGray);
 		labelpista.setFont(new Font("Serif", Font.PLAIN, 20));
 		labelpista.setText("A");
+		labelpista.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		this.add(labelpista);
 		
@@ -136,25 +152,37 @@ public class InterfazRuleta extends JFrame implements Observer{
 		JButton botonvocal = new JButton("Comprar Vocal");
 		botonvocal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				Juego.getJuego().tirarRuleta();
+				Juego.getJuego().comprarVocal();
 				
 			}
 		});
 		opciones.add(botonvocal);
 		
-		JButton botonresolver = new JButton("Comprar Vocal");
+		JButton botonresolver = new JButton("Resolver Panel");
 		botonresolver.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				Juego.getJuego().tirarRuleta();
+				Juego.getJuego().resolverPanel();
 				
 			}
 		});
 		opciones.add(botonresolver);		
 		this.add(opciones);
+		
+
+		JPanel panelpuntuaciones = new JPanel();
+		panelpuntuaciones.setLayout(new FlowLayout());
+		labelsjugadores = new ArrayList<JLabel>();
+		Iterator<Jugador> iterador = ListaJugadores.getListaJugadores().getIterador();
+		while(iterador.hasNext()){
+			iterador.next();
+			JLabel labeljugador = new JLabel("<html>Nombre:<br>Puntuación:<br>Puntuación Total:</html>");
+			labelsjugadores.add(labeljugador);
+			panelpuntuaciones.add(labeljugador);
+		}
+		this.add(panelpuntuaciones);
 	}
 	
 	private void actualizarLabels(){
-		Panel p = Juego.getJuego().getPanelActual();
 		Iterator<JLabel> iteradorlabels = labels.iterator();
 		
 		for(int i=0;i<4;i++){
@@ -181,8 +209,23 @@ public class InterfazRuleta extends JFrame implements Observer{
 				}
 			}
 		}
-		labelpista.setText(p.getPista());
-		labeljugador.setText(Juego.getJuego().getJugadorActual().getNombre());
+		if(Juego.getJuego().getPanelActual()!=null){
+			labelpista.setText(Juego.getJuego().getPanelActual().getPista());
+		}
+		if(Juego.getJuego().getJugadorActual()!=null){
+			labeljugador.setText("Turno de: "+Juego.getJuego().getJugadorActual().getNombre());
+		}
+		if(Juego.getJuego().getRdo()!=null){
+			labelruleta.setText("Ruleta: "+Juego.getJuego().getRdo());
+		}
+		
+		Iterator<Jugador> iterador1 = ListaJugadores.getListaJugadores().getIterador();
+		Iterator<JLabel> iterador2 = labelsjugadores.iterator();
+		while(iterador1.hasNext()){
+			Jugador aux = iterador1.next();
+			JLabel aux2 = iterador2.next();
+			aux2.setText("<html>Nombre: "+aux.getNombre()+"<br>Puntuación: "+aux.getPuntuacion()+"<br>Puntuación Total: "+aux.getPuntuacionTotal()+"</html>");;
+		}
 	}
 	
 	public void update(Observable arg0, Object arg1) {

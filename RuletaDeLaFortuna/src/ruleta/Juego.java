@@ -2,9 +2,12 @@ package ruleta;
 
 import interfaz.InterfazRuleta;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
+import sun.audio.*;
 
 import javax.swing.JOptionPane;
 
@@ -15,6 +18,7 @@ public class Juego extends Observable{
 	private Ruleta r;
 	private Jugador jugActual;
 	private int contadorpaneles;
+	private String rdo;
 	
 	private Juego() {  }
 	public static Juego getJuego(){
@@ -25,6 +29,9 @@ public class Juego extends Observable{
 	}
 	public Jugador getJugadorActual() {
 		return jugActual;
+	}
+	public String getRdo() {
+		return rdo;
 	}
 	public void jugar() {
 		ListaJugadores.getListaJugadores().inicializarJugadores();
@@ -44,8 +51,11 @@ public class Juego extends Observable{
 		notifyObservers();
 	}
 	public void tirarRuleta(){
-		String rdo = r.girarRuleta();
+		rdo = r.girarRuleta();
+		setChanged();
+		notifyObservers();
 		if(rdo.equalsIgnoreCase("Pierde Turno")){
+			this.reproducirSonido(false);
 			if(jugActual.getComodines()>0){
 				if(this.pedirComodin().equalsIgnoreCase("Y")){
 					jugActual.setComodines(jugActual.getComodines()-1);
@@ -62,6 +72,7 @@ public class Juego extends Observable{
 		}else if(rdo.equalsIgnoreCase("Comodin")){
 			jugActual.setComodines(jugActual.getComodines()+1);
 		}else if(rdo.equalsIgnoreCase("Quiebra")){
+			this.reproducirSonido(false);
 			jugActual.setPuntuacion(0);
 			if(jugActual.getComodines()>0){
 				if(this.pedirComodin().equalsIgnoreCase("Y")){
@@ -82,7 +93,8 @@ public class Juego extends Observable{
 				JOptionPane.showMessageDialog(null, "No se puede introducir una vocal", "Error", JOptionPane.ERROR_MESSAGE);
 				letra=this.pedirLetra();
 			}
-			if(panelactual.comprobarLetra(letra)==0){						
+			if(panelactual.comprobarLetra(letra)==0){
+				this.reproducirSonido(false);						
 				if(jugActual.getComodines()>0){
 					if(this.pedirComodin().equalsIgnoreCase("Y")){
 						jugActual.setComodines(jugActual.getComodines()-1);
@@ -97,19 +109,40 @@ public class Juego extends Observable{
 				}
 			}
 			else{
-			ListaCasillas.getListaCasillas().destaparLetra(letra);
-			int	puntos=panelactual.calcularPuntuacion(dinero, letra);
-			jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
+				this.reproducirSonido(true);
+				ListaCasillas.getListaCasillas().destaparLetra(letra);
+				int	puntos=panelactual.calcularPuntuacion(dinero, letra);
+				jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
 			}
 		}
 		setChanged();
 		notifyObservers();
 	}
 	public void comprarVocal(){
-		
+		if(jugActual.getPuntuacion()<50){
+			
+		}else{
+			Character letra=this.pedirLetra();
+			while(!letra.equals('A')||!letra.equals('E')||!letra.equals('I')||!letra.equals('O')||!letra.equals('U')){
+				JOptionPane.showMessageDialog(null, "No se ha introducido una vocal", "Error", JOptionPane.ERROR_MESSAGE);
+				letra=this.pedirLetra();
+			}
+			jugActual.setPuntuacion(jugActual.getPuntuacion()-50);
+			ListaCasillas.getListaCasillas().destaparLetra(letra);
+		}
 	}
 	public void resolverPanel(){
 		if(panelactual.comprobarSolucion(this.pedirSolucion())){
+			ListaCasillas.getListaCasillas().destaparTodo();
+			System.out.println("BIEN");
+			setChanged();
+			notifyObservers();
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);
 			contadorpaneles++;
 			if(contadorpaneles<5){
@@ -117,6 +150,7 @@ public class Juego extends Observable{
 			}
 		}
 		else{
+			JOptionPane.showMessageDialog(null, "La solución es incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
 			if(jugActual.getComodines()>0){
 				if(this.pedirComodin().equalsIgnoreCase("Y")){
 					jugActual.setComodines(jugActual.getComodines()-1);
@@ -143,7 +177,7 @@ public class Juego extends Observable{
 	}
 	private ArrayList<Character> pedirSolucion(){
 		//este método devuelve la solución al panel que escribe el jugador
-		String respuesta=JOptionPane.showInputDialog(null, "Escribe la solución al panel", "Solución", JOptionPane.QUESTION_MESSAGE);
+		String respuesta=JOptionPane.showInputDialog(null, "Escribe la solución al panel", "Solución", JOptionPane.QUESTION_MESSAGE).toUpperCase();
 		int contador=0;
 		ArrayList<Character> solucion=new ArrayList<Character>();
 		while(contador<respuesta.length()){
@@ -156,6 +190,22 @@ public class Juego extends Observable{
 		//este metodo devuelve la respuesta a si quiere resolver el panel o seguir jugando
 		String respuesta=JOptionPane.showInputDialog(null, "¿Quieres usar un comodín? (Y/N)", "Comodín", JOptionPane.QUESTION_MESSAGE);
 		return respuesta;
+	}
+	
+	private void reproducirSonido(boolean pAcertado){
+		/*try {
+			String fila;
+			if(pAcertado){
+				 fila = "sounds/correct.wav";
+			}else{
+				fila = "sounds/wrong.wav";
+			}
+		    InputStream in = new FileInputStream(fila);
+		    AudioStream audioStream = new AudioStream(in);
+		    AudioPlayer.player.start(audioStream);
+		}catch (Exception e){
+			e.printStackTrace();
+		}*/
 	}
 
 }

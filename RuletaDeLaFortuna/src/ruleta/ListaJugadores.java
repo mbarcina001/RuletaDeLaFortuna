@@ -19,7 +19,9 @@ public class ListaJugadores {
 	public static ListaJugadores getListaJugadores(){
 		return mListaJugadores;
 	}
-	
+	public Iterator<Jugador> getIterador(){
+		return this.listajugadores.iterator(); 
+	}
 	public Jugador obtenerPrimerJuador(){
 		Random rg = new Random();
 		int r = rg.nextInt(listajugadores.size());
@@ -44,11 +46,11 @@ public class ListaJugadores {
 		Jugador jugador;
 		while(it.hasNext()){
 			jugador=it.next();
+			jugador.setPuntuacionTotal(jugador.getPuntuacionTotal()+jugador.getPuntuacion());
 			if(!jugador.equals(pJugador)){
 				jugador.setPuntuacion(0);
 				
 			}
-			jugador.setPuntuacionTotal(jugador.getPuntuacionTotal()+jugador.getPuntuacion());
 		}
 		
 	}
