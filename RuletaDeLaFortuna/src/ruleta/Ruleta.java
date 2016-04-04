@@ -11,28 +11,28 @@ public class Ruleta {
 	private Ruleta(){
 		ruleta = new ArrayList<String>();
 		ruleta.add("Pierde turno");
-		ruleta.add("800");
-		ruleta.add("350");
-		ruleta.add("450");
-		ruleta.add("700");
-		ruleta.add("300");
-		ruleta.add("600");
-		ruleta.add("5000");
-		ruleta.add("300");
-		ruleta.add("600");
-		ruleta.add("300");
-		ruleta.add("500");
-		ruleta.add("800");
-		ruleta.add("550");
-		ruleta.add("400");
-		ruleta.add("300");
-		ruleta.add("900");
-		ruleta.add("500");
 		ruleta.add("Comodin");
-		ruleta.add("900");
+		ruleta.add("25");
+		ruleta.add("75");
+		ruleta.add("50");
 		ruleta.add("Quiebra");
-		ruleta.add("600");
-		ruleta.add("400");
+		ruleta.add("200");
+		ruleta.add("25");
+		ruleta.add("100");
+		ruleta.add("Pierde turno");
+		ruleta.add("50");
+		ruleta.add("150");
+		ruleta.add("75");
+		ruleta.add("25");
+		ruleta.add("100");
+		ruleta.add("25");
+		ruleta.add("150");
+		ruleta.add("100");
+		ruleta.add("Comodin");
+		ruleta.add("50");
+		ruleta.add("Quiebra");
+		ruleta.add("75");
+		ruleta.add("25");
 		ruleta.add("300");
 	}
 	
