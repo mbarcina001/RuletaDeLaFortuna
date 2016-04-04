@@ -3,6 +3,7 @@ package interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private ArrayList<JLabel> labels;
 	private JLabel labelpista;
+	private JLabel labeljugador;
 
 	public static void main(String[] args) { 
 		InterfazRuleta dialog = new InterfazRuleta(); 
@@ -50,6 +52,14 @@ public class InterfazRuleta extends JFrame implements Observer{
 		labels = new ArrayList<JLabel>();
 		BoxLayout layoutpadre = new BoxLayout(getContentPane(),BoxLayout.Y_AXIS); /* obtenemos el contenedor del JFrame con el metodo getContentPane() */ 
 		getContentPane().setLayout(layoutpadre);
+		
+		labeljugador = new JLabel("");
+		labeljugador.setForeground(Color.blue);
+		labeljugador.setBackground(Color.lightGray);
+		labeljugador.setFont(new Font("Serif", Font.PLAIN, 20));
+		labeljugador.setText("Turno de: ");
+		
+		this.add(labelpista);
 		
 		//Panel
 		JPanel panel = new JPanel();
@@ -105,6 +115,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 		labelpista = new JLabel("");
 		labelpista.setForeground(Color.blue);
 		labelpista.setBackground(Color.lightGray);
+		labelpista.setFont(new Font("Serif", Font.PLAIN, 20));
 		labelpista.setText("A");
 		
 		this.add(labelpista);
@@ -163,7 +174,6 @@ public class InterfazRuleta extends JFrame implements Observer{
 						if(casillaaux.isOculta()){
 							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel3.png")));
 						}else{
-							System.out.println("HEY!");
 							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel"+casillaaux.getLetra()+".png")));
 						}
 						
@@ -172,6 +182,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 			}
 		}
 		labelpista.setText(p.getPista());
+		labeljugador.setText(Juego.getJuego().getJugadorActual().getNombre());
 	}
 	
 	public void update(Observable arg0, Object arg1) {

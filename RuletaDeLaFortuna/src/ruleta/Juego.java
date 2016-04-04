@@ -1,7 +1,6 @@
 package ruleta;
 
 import interfaz.InterfazRuleta;
-import interfaz.Principal;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -15,6 +14,7 @@ public class Juego extends Observable{
 	private Panel panelactual;
 	private Ruleta r;
 	private Jugador jugActual;
+	private int contadorpaneles;
 	
 	private Juego() {  }
 	public static Juego getJuego(){
@@ -23,15 +23,22 @@ public class Juego extends Observable{
 	public Panel getPanelActual(){
 		return panelactual;
 	}
-	public  void jugar() {
+	public Jugador getJugadorActual() {
+		return jugActual;
+	}
+	public void jugar() {
 		ListaJugadores.getListaJugadores().inicializarJugadores();
 		r = Ruleta.getRuleta();
-		Random jAleatorio=new Random();
-		int contadorPaneles=0;
+		contadorpaneles=0;
 		InterfazRuleta.main(null);
+		cargarSiguientePanel();
 		
+	}
+	private void cargarSiguientePanel(){
+		Random jAleatorio=new Random();
 		jugActual = ListaJugadores.getListaJugadores().obtenerJugador(jAleatorio.nextInt(ListaJugadores.getListaJugadores().obtenerNumJugadores()-1));
 		panelactual=ListaPaneles.getListaPaneles().elegirPanelAleatorio();
+		ListaCasillas.getListaCasillas().resetearListaCasillas();
 		ListaCasillas.getListaCasillas().iniciarLista(panelactual.getLetras());
 		setChanged();
 		notifyObservers();
@@ -71,6 +78,10 @@ public class Juego extends Observable{
 		}else{
 			int dinero = Integer.valueOf(rdo);
 			Character letra=this.pedirLetra();
+			while(letra.equals('A')||letra.equals('E')||letra.equals('I')||letra.equals('O')||letra.equals('U')){
+				JOptionPane.showMessageDialog(null, "No se puede introducir una vocal", "Error", JOptionPane.ERROR_MESSAGE);
+				letra=this.pedirLetra();
+			}
 			if(panelactual.comprobarLetra(letra)==0){						
 				if(jugActual.getComodines()>0){
 					if(this.pedirComodin().equalsIgnoreCase("Y")){
@@ -99,7 +110,11 @@ public class Juego extends Observable{
 	}
 	public void resolverPanel(){
 		if(panelactual.comprobarSolucion(this.pedirSolucion())){
-			ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);						
+			ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);
+			contadorpaneles++;
+			if(contadorpaneles<5){
+				cargarSiguientePanel();
+			}
 		}
 		else{
 			if(jugActual.getComodines()>0){

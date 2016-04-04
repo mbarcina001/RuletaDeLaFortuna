@@ -22,6 +22,15 @@ public class ListaCasillas {
 		return this.listacasillas.get(indice);
 	}
 	
+	public void resetearListaCasillas(){
+		this.listacasillas = new ArrayList<ArrayList<Casilla>>();
+		ArrayList<Casilla> aux;
+		for(int i=0; i<4; i++){
+			aux = new ArrayList<Casilla>();
+			listacasillas.add(aux);
+		}
+	}
+	
 	public void iniciarLista(String letras){
 		char[] arrayLetras = letras.toCharArray();
 
