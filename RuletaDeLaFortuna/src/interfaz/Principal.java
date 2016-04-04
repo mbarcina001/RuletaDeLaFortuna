@@ -66,7 +66,7 @@ public class Principal extends JFrame {
 		btnReglas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
 				dispose();
-				//TODO
+				InterfazInstrucciones.main(null);
 			}
 		});
 		

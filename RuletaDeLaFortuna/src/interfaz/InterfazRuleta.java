@@ -191,6 +191,7 @@ public class InterfazRuleta extends JFrame implements Observer{
 			JLabel labeljugador = new JLabel("<html>Nombre:<br>Puntuación:<br>Puntuación Total:</html>");
 			labelsjugadores.add(labeljugador);
 			panelpuntuaciones.add(labeljugador);
+			((FlowLayout)panelpuntuaciones.getLayout()).setHgap(30);
 		}
 		this.add(panelpuntuaciones);
 	}

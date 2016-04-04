@@ -63,7 +63,7 @@ public class ListaJugadores {
 		boolean correcto = false;
 		int jugadores = 0;
 		do{
-			jugadores = Integer.valueOf(JOptionPane.showInputDialog(null, "¿Cuántos jugadores sois? (Min. 2)", "Elegir número de jugadores", JOptionPane.QUESTION_MESSAGE));
+			jugadores = Integer.valueOf(JOptionPane.showInputDialog(null, "¿Cuántos jugadores sois? (Min. 2/Max. 6)", "Elegir número de jugadores", JOptionPane.QUESTION_MESSAGE));
 			if(jugadores<2){
 				JOptionPane.showMessageDialog(null, "El número mínimo de jugadores es 2", "Error", JOptionPane.ERROR_MESSAGE);
 			}else if(jugadores>6){
