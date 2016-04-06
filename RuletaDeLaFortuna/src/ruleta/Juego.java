@@ -50,8 +50,7 @@ public class Juego extends Observable{
 	}
 	public void cargarSiguientePanel(){
 		panelresuelto=false;
-		Random jAleatorio=new Random();
-		jugActual = ListaJugadores.getListaJugadores().obtenerJugador(jAleatorio.nextInt(ListaJugadores.getListaJugadores().obtenerNumJugadores()-1));
+		jugActual = ListaJugadores.getListaJugadores().obtenerPrimerJugador();
 		panelactual=ListaPaneles.getListaPaneles().elegirPanelAleatorio();
 		ListaCasillas.getListaCasillas().resetearListaCasillas();
 		ListaCasillas.getListaCasillas().iniciarLista(panelactual.getLetras());

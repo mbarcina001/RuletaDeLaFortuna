@@ -22,7 +22,7 @@ public class ListaJugadores {
 	public Iterator<Jugador> getIterador(){
 		return this.listajugadores.iterator(); 
 	}
-	public Jugador obtenerPrimerJuador(){
+	public Jugador obtenerPrimerJugador(){
 		Random rg = new Random();
 		int r = rg.nextInt(listajugadores.size());
 		return this.listajugadores.get(r);
