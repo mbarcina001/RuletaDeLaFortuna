@@ -21,6 +21,7 @@ public class Juego extends Observable{
 	private int contadorpaneles;
 	private String rdo;
 	private boolean panelresuelto;
+	private ArrayList<Character> letrasElegidas=new ArrayList<Character>();
 	
 	private Juego() {  }
 	public static Juego getJuego(){
@@ -96,10 +97,24 @@ public class Juego extends Observable{
 		}else{
 			int dinero = Integer.valueOf(rdo);
 			Character letra=this.pedirLetra();
+			if(letrasElegidas.contains(letra)){
+				this.reproducirSonido(false);
+				if(jugActual.getComodines()>0){
+					if(this.pedirComodin().equalsIgnoreCase("Y")){
+						jugActual.setComodines(jugActual.getComodines()-1);
+					}
+					else{
+						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+						
+					}
+				}
+			}
+			else{
 			while(letra.equals('A')||letra.equals('E')||letra.equals('I')||letra.equals('O')||letra.equals('U')){
 				JOptionPane.showMessageDialog(null, "No se puede introducir una vocal", "Error", JOptionPane.ERROR_MESSAGE);
 				letra=this.pedirLetra();
 			}
+			letrasElegidas.add(letra);
 			if(panelactual.comprobarLetra(letra)==0){
 				this.reproducirSonido(false);						
 				if(jugActual.getComodines()>0){
@@ -122,6 +137,7 @@ public class Juego extends Observable{
 				jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
 			}
 		}
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -134,6 +150,7 @@ public class Juego extends Observable{
 				JOptionPane.showMessageDialog(null, "No se ha introducido una vocal", "Error", JOptionPane.ERROR_MESSAGE);
 				letra=this.pedirLetra();
 			}
+			letrasElegidas.add(letra);
 			jugActual.setPuntuacion(jugActual.getPuntuacion()-50);
 			ListaCasillas.getListaCasillas().destaparLetra(letra);
 			setChanged();
