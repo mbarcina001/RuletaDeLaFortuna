@@ -41,20 +41,20 @@ public class ListaJugadores {
 	public Jugador obtenerJugador(int pPos){
 		return this.listajugadores.get(pPos);
 	}
-	public void actualizarPuntuaciones(Jugador pJugador){
+	public void actualizarPuntuaciones(Jugador pGanador){
 		Iterator<Jugador> it=this.listajugadores.iterator();
 		Jugador jugador;
+		boolean anadido = false;
 		while(it.hasNext()){
 			jugador=it.next();
-			jugador.setPuntuacionTotal(jugador.getPuntuacionTotal()+jugador.getPuntuacion());
-			if(!jugador.equals(pJugador)){
-				jugador.setPuntuacion(0);
-				
+			if(jugador.getNombre().equals(pGanador.getNombre())&&!anadido){
+				jugador.setPuntuacionTotal(jugador.getPuntuacionTotal()+jugador.getPuntuacion());
+				anadido = true;
 			}
+			jugador.setPuntuacion(0);
 		}
 		
-	}
-	
+	}	
 	private void anadirJugador(Jugador j){
 		this.listajugadores.add(j);
 	}

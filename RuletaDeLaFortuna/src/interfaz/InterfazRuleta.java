@@ -197,59 +197,64 @@ public class InterfazRuleta extends JFrame implements Observer{
 	}
 	
 	private void actualizarLabels(){
-		Iterator<JLabel> iteradorlabels = labels.iterator();
-		
-		for(int i=0;i<4;i++){
-			ArrayList<Casilla> listacasillas = ListaCasillas.getListaCasillas().getListaFila(i);
-			Iterator<Casilla> iteradorcasillas = listacasillas.iterator();
-
-			while(iteradorcasillas.hasNext()){
-				JLabel labelaux = iteradorlabels.next();
-				Casilla casillaaux = iteradorcasillas.next();
-				if(casillaaux.isVacia()){
-					labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png"))); 
-				}else{
-					if(casillaaux.getLetra()==' '){
-						labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png")));
+		if(Juego.getJuego().getFin()){
+			this.dispose();
+			InterfazPuntuaciones.main(null);
+		}else{
+			Iterator<JLabel> iteradorlabels = labels.iterator();
+			
+			for(int i=0;i<4;i++){
+				ArrayList<Casilla> listacasillas = ListaCasillas.getListaCasillas().getListaFila(i);
+				Iterator<Casilla> iteradorcasillas = listacasillas.iterator();
+	
+				while(iteradorcasillas.hasNext()){
+					JLabel labelaux = iteradorlabels.next();
+					Casilla casillaaux = iteradorcasillas.next();
+					if(casillaaux.isVacia()){
+						labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png"))); 
 					}else{
-						if(casillaaux.isOculta()){
-							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel3.png")));
+						if(casillaaux.getLetra()==' '){
+							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel1.png")));
 						}else{
-							labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel"+casillaaux.getLetra()+".png")));
-						}
-						
-					}				 
+							if(casillaaux.isOculta()){
+								labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel3.png")));
+							}else{
+								labelaux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Panel"+casillaaux.getLetra()+".png")));
+							}
+							
+						}				 
+					}
 				}
 			}
-		}
-		if(Juego.getJuego().getPanelActual()!=null){
-			labelpista.setText(Juego.getJuego().getPanelActual().getPista());
-		}
-		if(Juego.getJuego().getJugadorActual()!=null){
-			labeljugador.setText("Turno de: "+Juego.getJuego().getJugadorActual().getNombre());
-		}
-		if(Juego.getJuego().getRdo()!=null){
-			labelruleta.setText("Ruleta: "+Juego.getJuego().getRdo());
-		}
-		
-		if(Juego.getJuego().getPanelResuelto()){
-			btnSiguiente.setEnabled(true);
-			botonresolver.setEnabled(false);;
-			botontirar.setEnabled(false);
-			botonvocal.setEnabled(false);
-		}else{
-			btnSiguiente.setEnabled(false);
-			botonresolver.setEnabled(true);;
-			botontirar.setEnabled(true);
-			botonvocal.setEnabled(true);
-		}
-		
-		Iterator<Jugador> iterador1 = ListaJugadores.getListaJugadores().getIterador();
-		Iterator<JLabel> iterador2 = labelsjugadores.iterator();
-		while(iterador1.hasNext()){
-			Jugador aux = iterador1.next();
-			JLabel aux2 = iterador2.next();
-			aux2.setText("<html>Nombre: "+aux.getNombre()+"<br>Puntuación: "+aux.getPuntuacion()+"<br>Puntuación Total: "+aux.getPuntuacionTotal()+"</html>");;
+			if(Juego.getJuego().getPanelActual()!=null){
+				labelpista.setText(Juego.getJuego().getPanelActual().getPista());
+			}
+			if(Juego.getJuego().getJugadorActual()!=null){
+				labeljugador.setText("Turno de: "+Juego.getJuego().getJugadorActual().getNombre());
+			}
+			if(Juego.getJuego().getRdo()!=null){
+				labelruleta.setText("Ruleta: "+Juego.getJuego().getRdo());
+			}
+			
+			if(Juego.getJuego().getPanelResuelto()){
+				btnSiguiente.setEnabled(true);
+				botonresolver.setEnabled(false);;
+				botontirar.setEnabled(false);
+				botonvocal.setEnabled(false);
+			}else{
+				btnSiguiente.setEnabled(false);
+				botonresolver.setEnabled(true);;
+				botontirar.setEnabled(true);
+				botonvocal.setEnabled(true);
+			}
+			
+			Iterator<Jugador> iterador1 = ListaJugadores.getListaJugadores().getIterador();
+			Iterator<JLabel> iterador2 = labelsjugadores.iterator();
+			while(iterador1.hasNext()){
+				Jugador aux = iterador1.next();
+				JLabel aux2 = iterador2.next();
+				aux2.setText("<html>Nombre: "+aux.getNombre()+"<br>Puntuación: "+aux.getPuntuacion()+"<br>Puntuación Total: "+aux.getPuntuacionTotal()+"</html>");;
+			}
 		}
 	}
 	

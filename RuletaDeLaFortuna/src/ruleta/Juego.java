@@ -21,6 +21,7 @@ public class Juego extends Observable{
 	private int contadorpaneles;
 	private String rdo;
 	private boolean panelresuelto;
+	private boolean fin;
 	private ArrayList<Character> letrasElegidas=new ArrayList<Character>();
 	
 	private Juego() {  }
@@ -33,6 +34,9 @@ public class Juego extends Observable{
 	public Jugador getJugadorActual() {
 		return jugActual;
 	}
+	public boolean getFin(){
+		return fin;
+	}
 	public String getRdo() {
 		return rdo;
 	}
@@ -43,6 +47,7 @@ public class Juego extends Observable{
 		ListaJugadores.getListaJugadores().inicializarJugadores();
 		r = Ruleta.getRuleta();
 		contadorpaneles=0;
+		fin=false;
 		InterfazRuleta.main(null);
 		panelresuelto=false;
 		cargarSiguientePanel();
@@ -50,6 +55,7 @@ public class Juego extends Observable{
 	}
 	public void cargarSiguientePanel(){
 		panelresuelto=false;
+		letrasElegidas=new ArrayList<Character>();
 		jugActual = ListaJugadores.getListaJugadores().obtenerPrimerJugador();
 		panelactual=ListaPaneles.getListaPaneles().elegirPanelAleatorio();
 		ListaCasillas.getListaCasillas().resetearListaCasillas();
@@ -109,33 +115,33 @@ public class Juego extends Observable{
 				}
 			}
 			else{
-			while(letra.equals('A')||letra.equals('E')||letra.equals('I')||letra.equals('O')||letra.equals('U')){
-				JOptionPane.showMessageDialog(null, "No se puede introducir una vocal", "Error", JOptionPane.ERROR_MESSAGE);
-				letra=this.pedirLetra();
-			}
-			letrasElegidas.add(letra);
-			if(panelactual.comprobarLetra(letra)==0){
-				this.reproducirSonido(false);						
-				if(jugActual.getComodines()>0){
-					if(this.pedirComodin().equalsIgnoreCase("Y")){
-						jugActual.setComodines(jugActual.getComodines()-1);
+				while(letra.equals('A')||letra.equals('E')||letra.equals('I')||letra.equals('O')||letra.equals('U')){
+					JOptionPane.showMessageDialog(null, "No se puede introducir una vocal", "Error", JOptionPane.ERROR_MESSAGE);
+					letra=this.pedirLetra();
+				}
+				letrasElegidas.add(letra);
+				if(panelactual.comprobarLetra(letra)==0){
+					this.reproducirSonido(false);						
+					if(jugActual.getComodines()>0){
+						if(this.pedirComodin().equalsIgnoreCase("Y")){
+							jugActual.setComodines(jugActual.getComodines()-1);
+						}
+						else{
+							jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+							
+						}
 					}
 					else{
 						jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
-						
 					}
 				}
 				else{
-					jugActual = ListaJugadores.getListaJugadores().obtenerSiguienteJugador();
+					this.reproducirSonido(true);
+					ListaCasillas.getListaCasillas().destaparLetra(letra);
+					int	puntos=panelactual.calcularPuntuacion(dinero, letra);
+					jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
 				}
 			}
-			else{
-				this.reproducirSonido(true);
-				ListaCasillas.getListaCasillas().destaparLetra(letra);
-				int	puntos=panelactual.calcularPuntuacion(dinero, letra);
-				jugActual.setPuntuacion(jugActual.getPuntuacion()+puntos);
-			}
-		}
 		}
 		setChanged();
 		notifyObservers();
@@ -156,6 +162,7 @@ public class Juego extends Observable{
 			notifyObservers();
 		}
 	}
+	
 	public void resolverPanel(){
 		if(panelactual.comprobarSolucion(this.pedirSolucion())){
 			ListaCasillas.getListaCasillas().destaparTodo();
@@ -163,8 +170,11 @@ public class Juego extends Observable{
 			//SUMAR PUNTOS
 			ListaJugadores.getListaJugadores().actualizarPuntuaciones(jugActual);
 			contadorpaneles++;
-			if(contadorpaneles>5){
-				//TERMINAR
+			System.out.println(contadorpaneles);
+			if(contadorpaneles>=5){
+				ListaPuntuaciones.getListaPuntuaciones().actualizarPuntuaciones();
+				ListaPuntuaciones.getListaPuntuaciones().guardarPuntuaciones();
+				fin=true;
 			}
 		}
 		else{
@@ -223,10 +233,6 @@ public class Juego extends Observable{
 			}else{
 				fila = "sounds/wrong.wav";
 			}
-			/*Clip clip = AudioSystem.getClip();
-	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(fila));
-	        clip.open(inputStream);
-	        clip.start(); */
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(fila).getAbsoluteFile());
 	        Clip clip = AudioSystem.getClip();
 	        clip.open(audioInputStream);
